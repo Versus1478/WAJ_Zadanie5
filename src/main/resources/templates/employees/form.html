@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="sk" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head(${employee.id != null ? 'Upraviť zamestnanca' : 'Pridať zamestnanca'})}"></head>
+<body>
+
+<header th:replace="~{fragments/layout :: topbar}"></header>
+
+<main class="container container--narrow">
+    <h1 th:text="${employee.id != null} ? 'Upraviť existujúceho zamestnanca' : 'Pridať nového zamestnanca'">
+        Pridať nového zamestnanca</h1>
+
+    <form class="card form"
+          th:action="${employee.id != null} ? @{/employees/{id}(id=${employee.id})} : @{/employees}"
+          th:object="${employee}" method="post">
+
+        <div class="grid">
+            <div class="field">
+                <label for="firstName">Meno</label>
+                <input type="text" id="firstName" th:field="*{firstName}" placeholder="Zadajte meno"
+                       maxlength="255" required>
+            </div>
+            <div class="field">
+                <label for="lastName">Priezvisko</label>
+                <input type="text" id="lastName" th:field="*{lastName}" placeholder="Zadajte priezvisko"
+                       maxlength="255" required>
+            </div>
+            <div class="field">
+                <label for="birthDate">Dátum narodenia</label>
+                <input type="date" id="birthDate" th:field="*{birthDate}" required>
+            </div>
+            <div class="field">
+                <label for="phone">Telefón</label>
+                <input type="tel" id="phone" th:field="*{phone}" placeholder="+421901234567"
+                       maxlength="15" required>
+            </div>
+            <div class="field">
+                <label for="email">Email</label>
+                <input type="email" id="email" th:field="*{email}" placeholder="Zadajte email"
+                       maxlength="255" required>
+            </div>
+            <div class="field">
+                <label for="salary">Mzda (€)</label>
+                <input type="number" id="salary" th:field="*{salary}" placeholder="Zadajte mzdu"
+                       min="0" step="1">
+            </div>
+            <div class="field">
+                <label for="jobTitle">Pracovná pozícia</label>
+                <select id="jobTitle" th:field="*{jobTitle}" required>
+                    <option value="" disabled th:selected="${employee.jobTitle == null}">Vyberte pozíciu</option>
+                    <option th:each="tempJob : ${jobTitles}"
+                            th:value="${tempJob}"
+                            th:text="${tempJob}">Software Engineer</option>
+                </select>
+            </div>
+            <div class="field">
+                <span class="label">Typ úväzku</span>
+                <div class="radios">
+                    <label th:each="tempType : ${employmentTypes}">
+                        <input type="radio" th:field="*{fullTime}" th:value="${tempType}" required>
+                        <span th:text="${tempType}">Full-time</span>
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <div class="form__footer">
+            <a class="btn" th:href="@{/employees}">Späť na zoznam</a>
+            <button type="submit" class="btn btn--primary"
+                    th:text="${employee.id != null} ? 'Upraviť zamestnanca' : 'Pridať zamestnanca'">Pridať zamestnanca</button>
+        </div>
+    </form>
+</main>
+
+</body>
+</html>

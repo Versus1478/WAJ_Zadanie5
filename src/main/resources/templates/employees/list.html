@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="sk" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Zamestnanci')}"></head>
+<body>
+
+<header th:replace="~{fragments/layout :: topbar}"></header>
+
+<main class="container">
+    <h1>Zamestnanci</h1>
+
+    <p class="empty" th:if="${#lists.isEmpty(employees)}">V databáze nie sú žiadni zamestnanci.</p>
+
+    <div class="card" th:unless="${#lists.isEmpty(employees)}">
+        <table class="table">
+            <thead>
+            <tr>
+                <th>Meno</th>
+                <th>Priezvisko</th>
+                <th>Pozícia</th>
+                <th>Úväzok</th>
+                <th>Email</th>
+                <th class="actions-col">Akcia</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="employee : ${employees}">
+                <td th:text="${employee.firstName}">Jozef</td>
+                <td th:text="${employee.lastName}">Novák</td>
+                <td th:text="${employee.jobTitle}">Software Engineer</td>
+                <td th:text="${employee.fullTime}">Full-time</td>
+                <td th:text="${employee.email}">jozef.novak@ukf.sk</td>
+                <td class="actions-col">
+                    <div class="actions">
+                        <form th:action="@{'/employees/' + ${employee.id}}" method="get">
+                            <button type="submit" class="btn btn--small">Detail</button>
+                        </form>
+                        <form th:action="@{'/employees/' + ${employee.id} + '/edit'}" method="get">
+                            <button type="submit" class="btn btn--small">Upraviť</button>
+                        </form>
+                        <form th:action="@{'/employees/' + ${employee.id} + '/delete'}" method="post"
+                              class="js-confirm-delete"
+                              th:attr="data-name=${employee.firstName + ' ' + employee.lastName}">
+                            <button type="submit" class="btn btn--small btn--danger-outline">Vymazať</button>
+                        </form>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</main>
+
+<dialog th:replace="~{fragments/layout :: deleteDialog}"></dialog>
+
+</body>
+</html>

@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="sk" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Chyba')}"></head>
+<body>
+
+<header th:replace="~{fragments/layout :: topbar}"></header>
+
+<main class="container container--narrow">
+    <h1 th:text="'Chyba ' + ${status}">Chyba 404</h1>
+    <div class="card form">
+        <p th:text="${message}">Zamestnanec s daným ID neexistuje.</p>
+        <a class="btn" th:href="@{/employees}">Späť na zoznam</a>
+    </div>
+</main>
+
+</body>
+</html>

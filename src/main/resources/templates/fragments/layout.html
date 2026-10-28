@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="sk" xmlns:th="http://www.thymeleaf.org">
+
+<head th:fragment="head(title)">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title th:text="${title}">Zamestnanci</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <script th:src="@{/js/app.js}" defer></script>
+</head>
+
+<body>
+
+<header th:fragment="topbar" class="topbar">
+    <div class="container topbar__inner">
+        <a class="brand" th:href="@{/employees}">Evidencia zamestnancov</a>
+        <a class="btn btn--primary" th:href="@{/employees/create}">Pridať zamestnanca</a>
+    </div>
+</header>
+
+<dialog th:fragment="deleteDialog" id="deleteDialog" class="dialog">
+    <h3>Vymazať zamestnanca</h3>
+    <p>Naozaj chcete vymazať zamestnanca <strong id="deleteName"></strong>?</p>
+    <div class="dialog__actions">
+        <button type="button" class="btn" data-dialog-cancel>Zrušiť</button>
+        <button type="button" class="btn btn--danger" data-dialog-confirm>Vymazať</button>
+    </div>
+</dialog>
+
+</body>
+</html>

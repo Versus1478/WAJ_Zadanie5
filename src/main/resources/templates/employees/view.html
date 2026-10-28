@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="sk" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Detail zamestnanca')}"></head>
+<body>
+
+<header th:replace="~{fragments/layout :: topbar}"></header>
+
+<main class="container container--narrow">
+    <h1>Detail zamestnanca</h1>
+
+    <div class="card">
+        <dl class="details">
+            <dt>Meno</dt>
+            <dd th:text="${employee.firstName}">Jozef</dd>
+
+            <dt>Priezvisko</dt>
+            <dd th:text="${employee.lastName}">Novák</dd>
+
+            <dt>Dátum narodenia</dt>
+            <dd th:text="${#temporals.format(employee.birthDate, 'dd. MM. yyyy')}">15. 04. 1992</dd>
+
+            <dt>Email</dt>
+            <dd th:text="${employee.email}">jozef.novak@ukf.sk</dd>
+
+            <dt>Telefón</dt>
+            <dd th:text="${employee.phone}">+421901234567</dd>
+
+            <dt>Pracovná pozícia</dt>
+            <dd th:text="${employee.jobTitle}">Software Engineer</dd>
+
+            <dt>Typ úväzku</dt>
+            <dd th:text="${employee.fullTime}">Full-time</dd>
+
+            <dt>Mzda</dt>
+            <dd th:text="${employee.salary != null} ? ${#numbers.formatDecimal(employee.salary, 1, 'WHITESPACE', 2, 'COMMA')} + ' €' : '—'">2 000,00 €</dd>
+        </dl>
+
+        <div class="form__footer">
+            <a class="btn" th:href="@{/employees}">Späť na zoznam</a>
+            <form th:action="@{'/employees/' + ${employee.id} + '/edit'}" method="get">
+                <button type="submit" class="btn btn--primary">Upraviť</button>
+            </form>
+            <form th:action="@{'/employees/' + ${employee.id} + '/delete'}" method="post"
+                  class="js-confirm-delete"
+                  th:attr="data-name=${employee.firstName + ' ' + employee.lastName}">
+                <button type="submit" class="btn btn--danger">Vymazať</button>
+            </form>
+        </div>
+    </div>
+</main>
+
+<dialog th:replace="~{fragments/layout :: deleteDialog}"></dialog>
+
+</body>
+</html>
